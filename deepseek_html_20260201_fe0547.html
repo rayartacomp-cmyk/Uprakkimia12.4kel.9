@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPT Praktikum - Kesetimbangan Warna Teh | Kelompok 9</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #2E5A88;
+            --primary-light: #4A90E2;
+            --accent: #FF6B6B;
+            --light-bg: #f8f9fa;
+            --dark-text: #333;
+            --light-text: #fff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark-text);
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+            max-width: 100vw;
+            position: relative;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 80px;
+            background-color: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+        
+        .nav-item {
+            width: 60px;
+            height: 60px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-number {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .nav-title {
+            font-size: 10px;
+            text-align: center;
+            line-height: 1.1;
+            display: none;
+        }
+        
+        /* Main Slides Area */
+        .slides-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        
+        .slides-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            overflow-y: auto;
+        }
+        
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-light);
+        }
+        
+        .slide-number {
+            background-color: var(--primary-dark);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .slide-title {
+            font-size: 28px;
+            color: var(--primary-dark);
+            font-weight: 700;
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+        
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Footer Navigation */
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-button {
+            padding: 10px 25px;
+            background-color: var(--primary-light);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .nav-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-indicator {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd;
+            cursor: pointer;
+        }
+        
+        .indicator-dot.active {
+            background-color: var(--primary-light);
+        }
+        
+        /* Specific Slide Styles */
+        .identitas-card {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .member-card {
+            background-color: var(--light-bg);
+            border-left: 5px solid var(--primary-dark);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .member-number {
+            background-color: var(--primary-light);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .member-info h3 {
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+        
+        .member-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tujuan-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .tujuan-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: var(--light-bg);
+            border-radius: 10px;
+        }
+        
+        .tujuan-icon {
+            background-color: var(--primary-dark);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .alat-bahan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .alat-bahan-card {
+            background-color: var(--light-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .alat-bahan-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .alat-bahan-list {
+            list-style-type: none;
+        }
+        
+        .alat-bahan-list li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .alat-bahan-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .prosedur-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .prosedur-step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            background-color: var(--light-bg);
+            border-radius: 10px;
+        }
+        
+        .step-number {
+            background-color: var(--primary-dark);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .hasil-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .hasil-card {
+            background-color: var(--light-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .hasil-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .hasil-header {
+            background-color: var(--primary-light);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+        }
+        
+        .hasil-body {
+            padding: 30px 20px;
+        }
+        
+        .warna-kontrol {
+            background-color: #8B4513;
+            height: 60px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .warna-cuka {
+            background-color: #D2B48C;
+            height: 60px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .warna-soda {
+            background-color: #5D4037;
+            height: 60px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .reaksi-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .reaksi-box {
+            background-color: var(--light-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-dark);
+        }
+        
+        .reaksi-equation {
+            text-align: center;
+            font-size: 22px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: var(--primary-dark);
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .conclusion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .conclusion-card {
+            background-color: var(--light-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border-top: 5px solid var(--primary-light);
+        }
+        
+        .conclusion-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .conclusion-list {
+            list-style-type: none;
+        }
+        
+        .conclusion-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .conclusion-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .conclusion-list i {
+            color: #4CAF50;
+            margin-top: 3px;
+        }
+        
+        .thank-you-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            gap: 30px;
+        }
+        
+        .thank-you-title {
+            font-size: 48px;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+        
+        .thank-you-subtitle {
+            font-size: 24px;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+        }
+        
+        .thank-you-quote {
+            font-style: italic;
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 2px solid var(--primary-light);
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .identitas-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .hasil-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .alat-bahan-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+            
+            .nav-item {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+            
+            .slide-title {
+                font-size: 22px;
+            }
+            
+            .conclusion-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="nav-item active" data-slide="0">
+                <div class="nav-number">1</div>
+                <div class="nav-title">Identitas</div>
+            </div>
+            <div class="nav-item" data-slide="1">
+                <div class="nav-number">2</div>
+                <div class="nav-title">Tujuan</div>
+            </div>
+            <div class="nav-item" data-slide="2">
+                <div class="nav-number">3</div>
+                <div class="nav-title">Alat & Bahan</div>
+            </div>
+            <div class="nav-item" data-slide="3">
+                <div class="nav-number">4</div>
+                <div class="nav-title">Prosedur</div>
+            </div>
+            <div class="nav-item" data-slide="4">
+                <div class="nav-number">5</div>
+                <div class="nav-title">Hasil</div>
+            </div>
+            <div class="nav-item" data-slide="5">
+                <div class="nav-number">6</div>
+                <div class="nav-title">Mekanisme Kimia</div>
+            </div>
+            <div class="nav-item" data-slide="6">
+                <div class="nav-number">7</div>
+                <div class="nav-title">Reaksi Bolak-Balik</div>
+            </div>
+            <div class="nav-item" data-slide="7">
+                <div class="nav-number">8</div>
+                <div class="nav-title">Reaksi CO₂</div>
+            </div>
+            <div class="nav-item" data-slide="8">
+                <div class="nav-number">9</div>
+                <div class="nav-title">Asas Le Chatelier</div>
+            </div>
+            <div class="nav-item" data-slide="9">
+                <div class="nav-number">10</div>
+                <div class="nav-title">Faktor Lain</div>
+            </div>
+            <div class="nav-item" data-slide="10">
+                <div class="nav-number">11</div>
+                <div class="nav-title">Kesimpulan</div>
+            </div>
+            <div class="nav-item" data-slide="11">
+                <div class="nav-number">12</div>
+                <div class="nav-title">Dokumentasi</div>
+            </div>
+            <div class="nav-item" data-slide="12">
+                <div class="nav-number">13</div>
+                <div class="nav-title">Terima Kasih</div>
+            </div>
+        </div>
+        
+        <!-- Main Slides Container -->
+        <div class="slides-container">
+            <div class="slides-wrapper">
+                <!-- Slide 1: Identitas Kelompok -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">1</div>
+                        <div class="slide-title">IDENTITAS KELOMPOK</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="color: var(--primary-dark); text-align: center; margin-bottom: 20px;">PRAKTIKUM KIMIA</h2>
+                            <h1 style="color: var(--primary-light); text-align: center; margin-bottom: 40px; font-size: 36px;">KESETIMBANGAN WARNA TEH</h1>
+                            
+                            <div class="identitas-card">
+                                <div class="member-card">
+                                    <div class="member-number">1</div>
+                                    <div class="member-info">
+                                        <h3>Ahmad Thoriqul Islam Al Ilhami</h3>
+                                        <p>NIS: 03 | Anggota 1</p>
+                                    </div>
+                                </div>
+                                <div class="member-card">
+                                    <div class="member-number">2</div>
+                                    <div class="member-info">
+                                        <h3>Jesselyn Putri Ramadhani Yapriyanto</h3>
+                                        <p>NIS: 19 | Anggota 2</p>
+                                    </div>
+                                </div>
+                                <div class="member-card">
+                                    <div class="member-number">3</div>
+                                    <div class="member-info">
+                                        <h3>Mutiara Arianti Nur Ar Rahma</h3>
+                                        <p>NIS: 30 | Anggota 3</p>
+                                    </div>
+                                </div>
+                                <div class="member-card">
+                                    <div class="member-number">4</div>
+                                    <div class="member-info">
+                                        <h3>Rayhan Juniarta Firmansyah</h3>
+                                        <p>NIS: 37 | Anggota 4</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px; color: #666; font-weight: bold;">
+                                <p>KELOMPOK 9 | KELAS 12.4 | SMA - TAHUN AJARAN 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn" disabled>
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot active" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 2: Tujuan Praktikum -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">2</div>
+                        <div class="slide-title">TUJUAN PRAKTIKUM</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <div style="text-align: center; margin-bottom: 40px;">
+                                <div style="background-color: var(--primary-dark); color: white; width: 80px; height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 20px;">
+                                    🎯
+                                </div>
+                                <h2 style="color: var(--primary-dark);">Tujuan Eksperimen Kesetimbangan Warna Teh</h2>
+                            </div>
+                            
+                            <div class="tujuan-list">
+                                <div class="tujuan-item">
+                                    <div class="tujuan-icon">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Mengamati Pergeseran Kesetimbangan Kimia pada Teh</h3>
+                                        <p>Memahami bagaimana reaksi kesetimbangan pada tanin teh dapat bergeser dengan penambahan asam atau basa.</p>
+                                    </div>
+                                </div>
+                                <div class="tujuan-item">
+                                    <div class="tujuan-icon">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Membuktikan Pengaruh Asam (Cuka) dan Basa (Soda Kue)</h3>
+                                        <p>Menunjukkan efek penambahan asam asetat (cuka) dan natrium bikarbonat (soda kue) terhadap perubahan warna teh.</p>
+                                    </div>
+                                </div>
+                                <div class="tujuan-item">
+                                    <div class="tujuan-icon">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Memahami Asas Le Chatelier dalam Reaksi Reversibel</h3>
+                                        <p>Mengaplikasikan prinsip Le Chatelier untuk menjelaskan pergeseran kesetimbangan dalam sistem tanin teh.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; border: 2px dashed var(--primary-light);">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 10px;">Diagram Percobaan</h4>
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #8B4513; width: 60px; height: 60px; border-radius: 10px; margin: 0 auto 10px;"></div>
+                                            <span>TEH PEKAT</span>
+                                        </div>
+                                        <i class="fas fa-arrow-down" style="color: var(--primary-dark);"></i>
+                                        <div style="display: flex; gap: 30px;">
+                                            <div style="text-align: center;">
+                                                <div style="background-color: #D2B48C; width: 60px; height: 60px; border-radius: 10px; margin: 0 auto 10px;"></div>
+                                                <span>+ CUKA<br><small>(TERANG)</small></span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="background-color: #5D4037; width: 60px; height: 60px; border-radius: 10px; margin: 0 auto 10px;"></div>
+                                                <span>+ SODA KUE<br><small>(GELAP)</small></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-2">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot active" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-2">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Alat & Bahan -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">3</div>
+                        <div class="slide-title">ALAT & BAHAN</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Alat dan Bahan yang Digunakan</h2>
+                            
+                            <div class="alat-bahan-grid">
+                                <div class="alat-bahan-card">
+                                    <h3><i class="fas fa-vial"></i> BAHAN</h3>
+                                    <ul class="alat-bahan-list">
+                                        <li><i class="fas fa-coffee" style="color: var(--primary-dark);"></i> Teh celup pekat (2 buah)</li>
+                                        <li><i class="fas fa-wine-bottle" style="color: var(--primary-dark);"></i> Cuka (asam asetat) 5%</li>
+                                        <li><i class="fas fa-mortar-pestle" style="color: var(--primary-dark);"></i> Soda kue (NaHCO₃)</li>
+                                        <li><i class="fas fa-tint" style="color: var(--primary-dark);"></i> Air panas 200 mL</li>
+                                        <li><i class="fas fa-temperature-high" style="color: var(--primary-dark);"></i> Air dingin 100 mL</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="alat-bahan-card">
+                                    <h3><i class="fas fa-tools"></i> ALAT</h3>
+                                    <ul class="alat-bahan-list">
+                                        <li><i class="fas fa-glass-whiskey" style="color: var(--primary-dark);"></i> 3 Gelas bening 100 mL</li>
+                                        <li><i class="fas fa-spoon" style="color: var(--primary-dark);"></i> Sendok pengaduk (3 buah)</li>
+                                        <li><i class="fas fa-tint" style="color: var(--primary-dark);"></i> Pipet tetes (2 buah)</li>
+                                        <li><i class="fas fa-weight" style="color: var(--primary-dark);"></i> Timbangan digital</li>
+                                        <li><i class="fas fa-ruler" style="color: var(--primary-dark);"></i> Gelas ukur 100 mL</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 15px; border: 2px solid var(--primary-light); max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Keterangan Keselamatan</h4>
+                                    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #FF6B6B; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <p>Hati-hati dengan<br>cuka dan air panas</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #4CAF50; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                                <i class="fas fa-user-md"></i>
+                                            </div>
+                                            <p>Gunakan alat pelindung<br>diri (APD) minimal apron</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #FFC107; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                                <i class="fas fa-vial"></i>
+                                            </div>
+                                            <p>Jangan mencicipi<br>sampel percobaan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-3">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot active" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-3">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 4: Prosedur Percobaan -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">4</div>
+                        <div class="slide-title">PROSEDUR PERCOBAAN</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Langkah-Langkah Percobaan</h2>
+                            
+                            <div class="prosedur-container">
+                                <div class="prosedur-step">
+                                    <div class="step-number">1</div>
+                                    <div>
+                                        <h3>SEDUH TEH PEKAT</h3>
+                                        <p>Seduh 2 kantong teh celup dalam 200 mL air panas selama 5 menit. Hasilnya adalah teh pekat berwarna coklat gelap.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="prosedur-step">
+                                    <div class="step-number">2</div>
+                                    <div>
+                                        <h3>BAGI DALAM 3 GELAS</h3>
+                                        <p>Bagi teh pekat secara merata ke dalam 3 gelas bening (masing-masing sekitar 65 mL).</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="prosedur-step">
+                                    <div class="step-number">3</div>
+                                    <div>
+                                        <h3>TAMBAHKAN PERLAKUAN</h3>
+                                        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
+                                            <div style="flex: 1; min-width: 200px;">
+                                                <div style="background-color: var(--light-bg); padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-light);">
+                                                    <h4><i class="fas fa-vial" style="color: var(--primary-dark);"></i> Gelas 1: Kontrol</h4>
+                                                    <p>Tidak ditambahkan apa-apa (sebagai pembanding)</p>
+                                                </div>
+                                            </div>
+                                            <div style="flex: 1; min-width: 200px;">
+                                                <div style="background-color: var(--light-bg); padding: 15px; border-radius: 10px; border-left: 4px solid #D2B48C;">
+                                                    <h4><i class="fas fa-wine-bottle" style="color: #D2B48C;"></i> Gelas 2: + Cuka</h4>
+                                                    <p>Tambahkan 10 tetes cuka (asam asetat) dan aduk rata</p>
+                                                </div>
+                                            </div>
+                                            <div style="flex: 1; min-width: 200px;">
+                                                <div style="background-color: var(--light-bg); padding: 15px; border-radius: 10px; border-left: 4px solid #5D4037;">
+                                                    <h4><i class="fas fa-mortar-pestle" style="color: #5D4037;"></i> Gelas 3: + Soda Kue</h4>
+                                                    <p>Tambahkan ¼ sendok teh soda kue yang telah dilarutkan dalam sedikit air, aduk rata</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="prosedur-step">
+                                    <div class="step-number">4</div>
+                                    <div>
+                                        <h3>AMATI PERUBAHAN WARNA</h3>
+                                        <p>Amati dan bandingkan perubahan warna pada ketiga gelas. Catat hasil pengamatan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Diagram Alir Percobaan</h4>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                        <div style="background-color: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">SEDUH TEH PEKAT</div>
+                                        <i class="fas fa-arrow-down" style="color: var(--primary-dark); font-size: 24px;"></i>
+                                        <div style="background-color: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">BAGI 3 GELAS SAMA RATA</div>
+                                        <i class="fas fa-arrow-down" style="color: var(--primary-dark); font-size: 24px;"></i>
+                                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin: 10px 0;">
+                                            <div style="background-color: var(--primary-light); color: white; padding: 10px 15px; border-radius: 5px; font-weight: bold;">GELAS 1<br><small>KONTROL</small></div>
+                                            <div style="background-color: #D2B48C; color: white; padding: 10px 15px; border-radius: 5px; font-weight: bold;">GELAS 2<br><small>+ CUKA</small></div>
+                                            <div style="background-color: #5D4037; color: white; padding: 10px 15px; border-radius: 5px; font-weight: bold;">GELAS 3<br><small>+ SODA KUE</small></div>
+                                        </div>
+                                        <i class="fas fa-arrow-down" style="color: var(--primary-dark); font-size: 24px;"></i>
+                                        <div style="background-color: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">AMATI PERUBAHAN WARNA</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-4">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot active" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-4">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 5: Hasil Pengamatan -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">5</div>
+                        <div class="slide-title">HASIL PENGAMATAN</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Perbandingan Hasil Percobaan</h2>
+                            
+                            <div class="hasil-grid">
+                                <div class="hasil-card">
+                                    <div class="hasil-header">GELAS 1 (KONTROL)</div>
+                                    <div class="hasil-body">
+                                        <div class="warna-kontrol"></div>
+                                        <h3 style="color: var(--primary-dark);">WARNA GELAP PEKAT</h3>
+                                        <p style="margin-top: 10px;">Teh pekat tanpa perlakuan menunjukkan warna asli tanin dalam kondisi kesetimbangan normal.</p>
+                                        <div style="margin-top: 20px; padding: 10px; background-color: rgba(139, 69, 19, 0.1); border-radius: 5px;">
+                                            <small><strong>pH diperkirakan:</strong> 5-6 (asam lemah)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="hasil-card">
+                                    <div class="hasil-header">GELAS 2 (+ CUKA)</div>
+                                    <div class="hasil-body">
+                                        <div class="warna-cuka"></div>
+                                        <h3 style="color: var(--primary-dark);">WARNA TERANG (JERNIH)</h3>
+                                        <p style="margin-top: 10px;">Penambahan asam (cuka) menyebabkan warna teh menjadi lebih terang dan jernih.</p>
+                                        <div style="margin-top: 20px; padding: 10px; background-color: rgba(210, 180, 140, 0.1); border-radius: 5px;">
+                                            <small><strong>pH diperkirakan:</strong> 3-4 (asam lebih kuat)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="hasil-card">
+                                    <div class="hasil-header">GELAS 3 (+ SODA KUE)</div>
+                                    <div class="hasil-body">
+                                        <div class="warna-soda"></div>
+                                        <h3 style="color: var(--primary-dark);">WARNA LEBIH GELAP</h3>
+                                        <p style="margin-top: 10px;">Penambahan basa (soda kue) menyebabkan warna teh menjadi lebih gelap daripada kontrol.</p>
+                                        <div style="margin-top: 20px; padding: 10px; background-color: rgba(93, 64, 55, 0.1); border-radius: 5px;">
+                                            <small><strong>pH diperkirakan:</strong> 8-9 (basa lemah)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Kesimpulan Sementara</h4>
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #D2B48C; width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin-right: 10px;"></div>
+                                            <span><strong>Asam</strong> (cuka) → warna lebih TERANG</span>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #5D4037; width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin-right: 10px;"></div>
+                                            <span><strong>Basa</strong> (soda kue) → warna lebih GELAP</span>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; font-style: italic;">Perubahan warna ini menunjukkan terjadinya pergeseran kesetimbangan kimia pada tanin dalam teh.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-5">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot active" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-5">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 6: Mekanisme Kimia Tanin -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">6</div>
+                        <div class="slide-title">MEKANISME KIMIA TANIN</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Reaksi Kesetimbangan Tanin dalam Teh</h2>
+                            
+                            <div class="reaksi-container">
+                                <div class="reaksi-box">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Kesetimbangan Tanin dalam Larutan</h3>
+                                    <div class="reaksi-equation">
+                                        Tanin-H (Berwarna) &nbsp;⇌&nbsp; Tanin⁻ (Tak berwarna) + H⁺
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 20px 0; flex-wrap: wrap;">
+                                        <div style="text-align: center; flex: 1; min-width: 200px; margin: 10px;">
+                                            <div style="background-color: #8B4513; height: 40px; border-radius: 5px; margin-bottom: 10px;"></div>
+                                            <strong>Warna Gelap</strong><br>
+                                            <small>Tanin-H (terprotonasi)</small>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 200px; margin: 10px;">
+                                            <div style="background-color: #D2B48C; height: 40px; border-radius: 5px; margin-bottom: 10px;"></div>
+                                            <strong>Warna Terang</strong><br>
+                                            <small>Tanin⁻ (terdeprotonasi)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="reaksi-box">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Pengaruh Penambahan Asam (Cuka)</h3>
+                                    <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                                        <div style="flex: 1; min-width: 300px;">
+                                            <div style="background-color: rgba(210, 180, 140, 0.2); padding: 15px; border-radius: 10px;">
+                                                <h4 style="color: var(--primary-dark);"><i class="fas fa-arrow-left"></i> + CUKA (H⁺)</h4>
+                                                <p>Penambahan ion H⁺ dari cuka menggeser kesetimbangan ke KIRI (prinsip Le Chatelier)</p>
+                                                <div style="margin-top: 10px;">
+                                                    <div class="arrow-container">
+                                                        <i class="fas fa-long-arrow-alt-left"></i>
+                                                        <div style="margin: 0 10px;">Geser ke KIRI</div>
+                                                    </div>
+                                                </div>
+                                                <p>Lebih banyak Tanin-H terbentuk → warna lebih TERANG</p>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center; flex: 0 0 auto; padding: 20px;">
+                                            <div style="font-size: 40px; color: var(--primary-dark);">⇌</div>
+                                        </div>
+                                        <div style="flex: 1; min-width: 300px;">
+                                            <div style="background-color: rgba(139, 69, 19, 0.2); padding: 15px; border-radius: 10px;">
+                                                <h4 style="color: var(--primary-dark);"><i class="fas fa-arrow-right"></i> + SODA KUE (OH⁻)</h4>
+                                                <p>Penambahan ion OH⁻ dari soda kue mengurangi H⁺ (OH⁻ + H⁺ → H₂O)</p>
+                                                <div style="margin-top: 10px;">
+                                                    <div class="arrow-container">
+                                                        <div style="margin: 0 10px;">Geser ke KANAN</div>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    </div>
+                                                </div>
+                                                <p>Kesetimbangan bergeser menghasilkan H⁺ → lebih banyak Tanin⁻ → warna lebih GELAP</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 30px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Ringkasan Pergeseran Kesetimbangan</h4>
+                                    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+                                        <div style="text-align: center; background-color: #D2B48C; color: white; padding: 15px; border-radius: 10px; flex: 1; min-width: 200px;">
+                                            <h4>+ ASAM (Cuka)</h4>
+                                            <p>H⁺ bertambah</p>
+                                            <p>→ Geser ke KIRI</p>
+                                            <p>→ Warna TERANG</p>
+                                        </div>
+                                        <div style="text-align: center; background-color: #5D4037; color: white; padding: 15px; border-radius: 10px; flex: 1; min-width: 200px;">
+                                            <h4>+ BASA (Soda Kue)</h4>
+                                            <p>H⁺ berkurang</p>
+                                            <p>→ Geser ke KANAN</p>
+                                            <p>→ Warna GELAP</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-6">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot active" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-6">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 7: Reaksi Bolak-Balik -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">7</div>
+                        <div class="slide-title">REAKSI BOLAK-BALIK (REVERSIBLE)</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Eksperimen Reaksi Bolak-Balik</h2>
+                            
+                            <div class="reaksi-container">
+                                <div class="reaksi-box">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Eksperimen 1: Teh + Cuka → + Soda Kue</h3>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                                        <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                                            <div style="background-color: #8B4513; height: 60px; border-radius: 10px; margin-bottom: 10px;"></div>
+                                            <strong>Teh (gelap)</strong>
+                                        </div>
+                                        <div style="text-align: center; flex: 0 0 auto; margin: 10px;">
+                                            <i class="fas fa-arrow-right" style="color: var(--primary-dark); font-size: 24px;"></i><br>
+                                            <small>+ Cuka</small>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                                            <div style="background-color: #D2B48C; height: 60px; border-radius: 10px; margin-bottom: 10px;"></div>
+                                            <strong>Terang</strong>
+                                        </div>
+                                        <div style="text-align: center; flex: 0 0 auto; margin: 10px;">
+                                            <i class="fas fa-arrow-right" style="color: var(--primary-dark); font-size: 24px;"></i><br>
+                                            <small>+ Soda kue</small>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                                            <div style="background-color: #5D4037; height: 60px; border-radius: 10px; margin-bottom: 10px;"></div>
+                                            <strong>Kembali Gelap</strong>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 20px; padding: 15px; background-color: rgba(74, 144, 226, 0.1); border-radius: 10px;">
+                                        <p><strong>Penjelasan:</strong> Asam (cuka) ditambahkan → warna terang. Kemudian basa (soda kue) ditambahkan → menetralkan asam → warna kembali gelap.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="reaksi-box">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Eksperimen 2: Teh + Soda Kue → + Cuka</h3>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                                        <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                                            <div style="background-color: #8B4513; height: 60px; border-radius: 10px; margin-bottom: 10px;"></div>
+                                            <strong>Teh (gelap)</strong>
+                                        </div>
+                                        <div style="text-align: center; flex: 0 0 auto; margin: 10px;">
+                                            <i class="fas fa-arrow-right" style="color: var(--primary-dark); font-size: 24px;"></i><br>
+                                            <small>+ Soda kue</small>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                                            <div style="background-color: #5D4037; height: 60px; border-radius: 10px; margin-bottom: 10px;"></div>
+                                            <strong>Lebih Gelap</strong>
+                                        </div>
+                                        <div style="text-align: center; flex: 0 0 auto; margin: 10px;">
+                                            <i class="fas fa-arrow-right" style="color: var(--primary-dark); font-size: 24px;"></i><br>
+                                            <small>+ Cuka</small>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                                            <div style="background-color: #D2B48C; height: 60px; border-radius: 10px; margin-bottom: 10px;"></div>
+                                            <strong>Kembali Terang</strong>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 20px; padding: 15px; background-color: rgba(255, 107, 107, 0.1); border-radius: 10px;">
+                                        <p><strong>Penjelasan:</strong> Basa (soda kue) ditambahkan → warna lebih gelap. Kemudian asam (cuka) ditambahkan → menetralkan basa → warna kembali terang. <strong>Timbul gelembung CO₂!</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 30px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Kesimpulan Reaksi Bolak-Balik</h4>
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 10px;">
+                                                <i class="fas fa-redo-alt"></i>
+                                            </div>
+                                            <p><strong>Reversibel</strong><br>Dapat balik ke awal</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 10px;">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </div>
+                                            <p><strong>Dinamis</strong><br>Kesetimbangan bergeser</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 10px;">
+                                                <i class="fas fa-vial"></i>
+                                            </div>
+                                            <p><strong>Netralisasi</strong><br>Asam + Basa</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-7">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot active" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-7">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 8: Reaksi Pembentukan CO₂ -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">8</div>
+                        <div class="slide-title">REAKSI PEMBENTUKAN CO₂</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Reaksi Asam-Basa: Mengapa Muncul Gelembung?</h2>
+                            
+                            <div style="text-align: center; margin-bottom: 30px;">
+                                <div class="reaksi-equation" style="font-size: 26px;">
+                                    CH₃COOH + NaHCO₃ → CH₃COONa + CO₂↑ + H₂O
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 15px; flex-wrap: wrap;">
+                                    <div style="text-align: center;">
+                                        <div style="background-color: var(--primary-light); color: white; padding: 8px 15px; border-radius: 5px; margin-bottom: 5px;">Asam</div>
+                                        <small>Cuka</small>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: var(--primary-dark); color: white; padding: 8px 15px; border-radius: 5px; margin-bottom: 5px;">Basa</div>
+                                        <small>Soda kue</small>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: #4CAF50; color: white; padding: 8px 15px; border-radius: 5px; margin-bottom: 5px;">Garam</div>
+                                        <small>Natrium asetat</small>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: #FF9800; color: white; padding: 8px 15px; border-radius: 5px; margin-bottom: 5px;">Gas</div>
+                                        <small>Karbon dioksida</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="reaksi-box">
+                                <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Mekanisme Pembentukan Gelembung CO₂</h3>
+                                <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+                                    <div style="flex: 1; min-width: 300px;">
+                                        <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: var(--shadow);">
+                                            <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Reaksi Bertahap:</h4>
+                                            <ol style="padding-left: 20px;">
+                                                <li style="margin-bottom: 10px;">H⁺ dari cuka (CH₃COOH) bereaksi dengan HCO₃⁻ dari soda kue (NaHCO₃)</li>
+                                                <li style="margin-bottom: 10px;">Terbentuk asam karbonat (H₂CO₃) yang tidak stabil</li>
+                                                <li style="margin-bottom: 10px;">Asam karbonat terurai menjadi air (H₂O) dan gas karbon dioksida (CO₂)</li>
+                                                <li>Gas CO₂ membentuk gelembung yang terlihat</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                    <div style="flex: 1; min-width: 300px;">
+                                        <div style="background-color: var(--light-bg); padding: 20px; border-radius: 10px; border: 2px solid var(--primary-light);">
+                                            <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Ilustrasi Reaksi:</h4>
+                                            <div style="text-align: center;">
+                                                <div style="display: inline-block; padding: 15px; background-color: white; border-radius: 10px;">
+                                                    <div style="margin-bottom: 10px;">
+                                                        <span style="background-color: rgba(74, 144, 226, 0.2); padding: 5px 10px; border-radius: 5px;">H⁺ dari Cuka</span>
+                                                        <span style="margin: 0 10px;">+</span>
+                                                        <span style="background-color: rgba(46, 90, 136, 0.2); padding: 5px 10px; border-radius: 5px;">HCO₃⁻ dari Soda kue</span>
+                                                    </div>
+                                                    <div style="margin: 15px 0;">
+                                                        <i class="fas fa-arrow-down" style="color: var(--primary-dark);"></i>
+                                                    </div>
+                                                    <div style="margin-bottom: 10px;">
+                                                        <span style="background-color: rgba(76, 175, 80, 0.2); padding: 5px 10px; border-radius: 5px;">H₂CO₃ (asam karbonat)</span>
+                                                    </div>
+                                                    <div style="margin: 15px 0;">
+                                                        <i class="fas fa-arrow-down" style="color: var(--primary-dark);"></i>
+                                                    </div>
+                                                    <div>
+                                                        <span style="background-color: rgba(255, 152, 0, 0.2); padding: 5px 10px; border-radius: 5px;">H₂O + CO₂↑ (gas)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 30px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Aplikasi dalam Kehidupan Sehari-hari</h4>
+                                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #FF6B6B; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                                <i class="fas fa-bread-slice"></i>
+                                            </div>
+                                            <p><strong>Pengembang Roti</strong><br>Soda kue + asam</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #4CAF50; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                                <i class="fas fa-fire-extinguisher"></i>
+                                            </div>
+                                            <p><strong>Alat Pemadam</strong><br>Reaksi menghasilkan CO₂</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #2196F3; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                                <i class="fas fa-wine-bottle"></i>
+                                            </div>
+                                            <p><strong>Minuman Berkarbonasi</strong><br>CO₂ dalam soda</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-8">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot active" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-8">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 9: Asas Le Chatelier -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">9</div>
+                        <div class="slide-title">ASAS LE CHATELIER</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Prinsip Le Chatelier dalam Kesetimbangan</h2>
+                            
+                            <div style="text-align: center; margin-bottom: 30px;">
+                                <div style="display: inline-block; background-color: var(--primary-dark); color: white; padding: 15px 30px; border-radius: 10px; font-size: 20px; max-width: 800px;">
+                                    <i class="fas fa-quote-left" style="margin-right: 10px;"></i>
+                                    "Jika suatu sistem kesetimbangan diberikan gangguan, sistem akan menyesuaikan diri untuk mengurangi pengaruh gangguan tersebut"
+                                    <i class="fas fa-quote-right" style="margin-left: 10px;"></i>
+                                </div>
+                                <p style="margin-top: 10px; font-style: italic;">- Henri Louis Le Chatelier (1884)</p>
+                            </div>
+                            
+                            <div class="reaksi-box">
+                                <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Contoh dalam Percobaan Warna Teh</h3>
+                                
+                                <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 20px;">
+                                    <div style="flex: 1; min-width: 300px;">
+                                        <div style="background-color: rgba(210, 180, 140, 0.2); padding: 20px; border-radius: 10px; height: 100%;">
+                                            <h4 style="color: var(--primary-dark); margin-bottom: 15px;">1. + H⁺ (Asam/Cuka)</h4>
+                                            <div style="margin-bottom: 15px;">
+                                                <div style="background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                                    <strong>Gangguan:</strong> Konsentrasi H⁺ meningkat
+                                                </div>
+                                                <div style="background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                                    <strong>Respons Sistem:</strong> Mengurangi H⁺ dengan menggeser kesetimbangan ke arah yang mengkonsumsi H⁺
+                                                </div>
+                                                <div style="background-color: white; padding: 15px; border-radius: 8px;">
+                                                    <strong>Hasil:</strong> Lebih banyak Tanin-H terbentuk → Warna TERANG
+                                                </div>
+                                            </div>
+                                            <div class="arrow-container">
+                                                <i class="fas fa-long-arrow-alt-left" style="font-size: 30px;"></i>
+                                                <div style="margin: 0 15px; font-weight: bold;">Geser ke KIRI</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="flex: 1; min-width: 300px;">
+                                        <div style="background-color: rgba(93, 64, 55, 0.2); padding: 20px; border-radius: 10px; height: 100%;">
+                                            <h4 style="color: var(--primary-dark); margin-bottom: 15px;">2. H⁺ berkurang (karena + OH⁻/Soda Kue)</h4>
+                                            <div style="margin-bottom: 15px;">
+                                                <div style="background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                                    <strong>Gangguan:</strong> Konsentrasi H⁺ menurun (OH⁻ + H⁺ → H₂O)
+                                                </div>
+                                                <div style="background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                                    <strong>Respons Sistem:</strong> Menambah H⁺ dengan menggeser kesetimbangan ke arah yang menghasilkan H⁺
+                                                </div>
+                                                <div style="background-color: white; padding: 15px; border-radius: 8px;">
+                                                    <strong>Hasil:</strong> Lebih banyak Tanin⁻ terbentuk → Warna GELAP
+                                                </div>
+                                            </div>
+                                            <div class="arrow-container">
+                                                <div style="margin: 0 15px; font-weight: bold;">Geser ke KANAN</div>
+                                                <i class="fas fa-long-arrow-alt-right" style="font-size: 30px;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 30px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Visualisasi Prinsip Le Chatelier</h4>
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-light), var(--primary-dark)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin: 0 auto 15px;">
+                                                KESETIMBANGAN
+                                            </div>
+                                            <p>Sistem dalam keadaan setimbang</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-arrow-right" style="font-size: 30px; color: var(--primary-dark);"></i>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 150px; height: 150px; border-radius: 10px; background-color: #FF6B6B; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin: 0 auto 15px;">
+                                                GANGGUAN
+                                            </div>
+                                            <p>Penambahan asam/basa</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-arrow-right" style="font-size: 30px; color: var(--primary-dark);"></i>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, #4CAF50, #2E7D32); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin: 0 auto 15px;">
+                                                PENYESUAIAN
+                                            </div>
+                                            <p>Sistem menyesuaikan diri</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-9">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot active" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-9">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 10: Faktor Penggeser Lainnya -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">10</div>
+                        <div class="slide-title">FAKTOR PENGGESER LAINNYA</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Faktor-Faktor yang Mempengaruhi Kesetimbangan Kimia</h2>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px;">
+                                <div style="background-color: var(--light-bg); padding: 25px; border-radius: 15px; border-top: 5px solid #FF9800;">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <i class="fas fa-thermometer-half" style="color: #FF9800;"></i> 1. SUHU
+                                    </h3>
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-arrow-up" style="color: #FF9800; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Suhu naik</strong> → kesetimbangan bergeser ke arah reaksi endoterm (menyerap panas)
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-arrow-down" style="color: #FF9800; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Suhu turun</strong> → kesetimbangan bergeser ke arah reaksi eksoterm (melepaskan panas)
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-vial" style="color: #FF9800; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Contoh:</strong> Pada teh, pendinginan mungkin mengubah kelarutan tanin
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div style="background-color: var(--light-bg); padding: 25px; border-radius: 15px; border-top: 5px solid #2196F3;">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <i class="fas fa-tachometer-alt" style="color: #2196F3;"></i> 2. TEKANAN (untuk sistem gas)
+                                    </h3>
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-compress-arrows-alt" style="color: #2196F3; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Tekanan naik</strong> → kesetimbangan bergeser ke arah jumlah mol gas lebih kecil
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-expand-arrows-alt" style="color: #2196F3; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Tekanan turun</strong> → kesetimbangan bergeser ke arah jumlah mol gas lebih besar
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-exclamation-triangle" style="color: #2196F3; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Catatan:</strong> Tekanan hanya berpengaruh jika ada fase gas dan jumlah mol gas berbeda antara reaktan dan produk
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div style="background-color: var(--light-bg); padding: 25px; border-radius: 15px; border-top: 5px solid #4CAF50;">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <i class="fas fa-vial" style="color: #4CAF50;"></i> 3. KONSENTRASI
+                                    </h3>
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-check-circle" style="color: #4CAF50; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Terbukti dalam percobaan ini</strong> dengan penambahan asam atau basa
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-plus-circle" style="color: #4CAF50; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Konsentrasi reaktan meningkat</strong> → kesetimbangan bergeser ke kanan (ke arah produk)
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-minus-circle" style="color: #4CAF50; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Konsentrasi produk meningkat</strong> → kesetimbangan bergeser ke kiri (ke arah reaktan)
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div style="background-color: var(--light-bg); padding: 25px; border-radius: 15px; border-top: 5px solid #9C27B0;">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                        <i class="fas fa-bolt" style="color: #9C27B0;"></i> 4. KATALIS
+                                    </h3>
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-tachometer-alt" style="color: #9C27B0; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Mempercepat tercapainya kesetimbangan</strong> dengan menurunkan energi aktivasi
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-balance-scale" style="color: #9C27B0; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Tidak menggeser posisi kesetimbangan</strong> - hanya mempercepat mencapainya
+                                            </div>
+                                        </li>
+                                        <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 10px;">
+                                            <i class="fas fa-vial" style="color: #9C27B0; margin-top: 3px;"></i>
+                                            <div>
+                                                <strong>Contoh:</strong> Enzim pada reaksi biokimia, logam transisi pada reaksi industri
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 20px; border-radius: 10px; max-width: 800px;">
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Hubungan dengan Percobaan Teh</h4>
+                                    <p>Dalam percobaan warna teh, faktor <strong>konsentrasi</strong> (ion H⁺) adalah yang paling berpengaruh. Faktor suhu juga dapat mempengaruhi jika teh didinginkan atau dipanaskan, namun dalam percobaan ini suhu dijaga konstan untuk mengisolasi efek penambahan asam/basa.</p>
+                                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
+                                        <div style="text-align: center; background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px;">
+                                            <strong>Faktor yang berpengaruh:</strong> Konsentrasi
+                                        </div>
+                                        <div style="text-align: center; background-color: #FF9800; color: white; padding: 10px 20px; border-radius: 5px;">
+                                            <strong>Faktor potensial:</strong> Suhu
+                                        </div>
+                                        <div style="text-align: center; background-color: #9E9E9E; color: white; padding: 10px 20px; border-radius: 5px;">
+                                            <strong>Tidak berpengaruh:</strong> Tekanan, Katalis
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-10">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot active" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-10">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 11: Kesimpulan -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">11</div>
+                        <div class="slide-title">KESIMPULAN</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Kesimpulan Praktikum Kesetimbangan Warna Teh</h2>
+                            
+                            <div class="conclusion-grid">
+                                <div class="conclusion-card">
+                                    <h3><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Bukti Pergeseran Kesetimbangan</h3>
+                                    <ul class="conclusion-list">
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Cuka (asam) → warna teh lebih terang</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Soda kue (basa) → warna teh lebih gelap</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Perubahan warna menunjukkan pergeseran kesetimbangan tanin</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="conclusion-card">
+                                    <h3><i class="fas fa-redo-alt" style="color: #2196F3;"></i> Reaksi Reversibel</h3>
+                                    <ul class="conclusion-list">
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Dapat dikembalikan ke kondisi awal dengan menambah lawannya</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Teh + cuka → terang → + soda kue → kembali gelap</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Demonstrasi reaksi bolak-balik yang dinamis</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="conclusion-card">
+                                    <h3><i class="fas fa-vial" style="color: #FF9800;"></i> Reaksi Asam-Basa</h3>
+                                    <ul class="conclusion-list">
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Menghasilkan gas CO₂ saat dicampur langsung</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Reaksi: CH₃COOH + NaHCO₃ → CH₃COONa + CO₂↑ + H₂O</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Terbentuk gelembung sebagai bukti reaksi kimia</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="conclusion-card">
+                                    <h3><i class="fas fa-balance-scale" style="color: #9C27B0;"></i> Sesuai Asas Le Chatelier</h3>
+                                    <ul class="conclusion-list">
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> Sistem menyesuaikan diri terhadap perubahan konsentrasi H⁺</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> + H⁺ (asam) → sistem mengurangi H⁺ → warna terang</li>
+                                        <li><i class="fas fa-check" style="color: #4CAF50;"></i> H⁺ berkurang (karena + OH⁻) → sistem menambah H⁺ → warna gelap</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 25px; border-radius: 15px; max-width: 800px; border: 3px solid var(--primary-light);">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Implikasi dan Aplikasi</h3>
+                                    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                                        <div style="text-align: center; flex: 1; min-width: 200px;">
+                                            <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 24px;">
+                                                <i class="fas fa-utensils"></i>
+                                            </div>
+                                            <h4>Industri Makanan</h4>
+                                            <p>Pengaturan pH untuk mengontrol warna makanan</p>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 200px;">
+                                            <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 24px;">
+                                                <i class="fas fa-prescription-bottle"></i>
+                                            </div>
+                                            <h4>Farmasi</h4>
+                                            <p>Stabilitas obat berdasarkan pH lingkungan</p>
+                                        </div>
+                                        <div style="text-align: center; flex: 1; min-width: 200px;">
+                                            <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 24px;">
+                                                <i class="fas fa-tint"></i>
+                                            </div>
+                                            <h4>Lingkungan</h4>
+                                            <p>Indikator alami untuk perubahan pH</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-11">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot active" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-11">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 12: Dokumentasi -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">12</div>
+                        <div class="slide-title">DOKUMENTASI</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="content-wrapper">
+                            <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 40px;">Dokumentasi Praktikum</h2>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px;">
+                                <div style="background-color: var(--light-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow);">
+                                    <div style="height: 200px; background: linear-gradient(135deg, #8B4513, #D2B48C); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                        <i class="fas fa-camera"></i> Foto 1
+                                    </div>
+                                    <div style="padding: 20px;">
+                                        <h3 style="color: var(--primary-dark); margin-bottom: 10px;">Teh Kontrol, +Cuka, +Soda Kue</h3>
+                                        <p>Perbandingan visual tiga gelas teh dengan perlakuan berbeda: kontrol (kiri), +cuka (tengah), +soda kue (kanan).</p>
+                                    </div>
+                                </div>
+                                
+                                <div style="background-color: var(--light-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow);">
+                                    <div style="height: 200px; background: linear-gradient(135deg, var(--primary-light), var(--primary-dark)); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                        <i class="fas fa-exchange-alt"></i> Foto 2
+                                    </div>
+                                    <div style="padding: 20px;">
+                                        <h3 style="color: var(--primary-dark); margin-bottom: 10px;">Reaksi Bolak-Balik</h3>
+                                        <p>Demonstrasi reversibilitas: teh + cuka menjadi terang, kemudian + soda kue kembali gelap.</p>
+                                    </div>
+                                </div>
+                                
+                                <div style="background-color: var(--light-bg); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow);">
+                                    <div style="height: 200px; background: linear-gradient(135deg, #4CAF50, #2E7D32); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                        <i class="fas fa-bubbles"></i> Foto 3
+                                    </div>
+                                    <div style="padding: 20px;">
+                                        <h3 style="color: var(--primary-dark); margin-bottom: 10px;">Gelembung CO₂</h3>
+                                        <p>Saat cuka dan soda kue dicampur langsung, terbentuk gelembung gas karbon dioksida (CO₂).</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <div style="display: inline-block; background-color: var(--light-bg); padding: 25px; border-radius: 15px; max-width: 800px; width: 100%;">
+                                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">Diagram Alir Percobaan Lengkap</h3>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                        <div style="display: flex; align-items: center; width: 100%;">
+                                            <div style="background-color: var(--primary-dark); color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">PERSIAPAN ALAT & BAHAN</div>
+                                            <div style="padding: 0 15px;">
+                                                <i class="fas fa-arrow-right" style="color: var(--primary-dark);"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; width: 100%;">
+                                            <div style="background-color: var(--primary-dark); color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">SEDUH TEH PEKAT</div>
+                                            <div style="padding: 0 15px;">
+                                                <i class="fas fa-arrow-right" style="color: var(--primary-dark);"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; width: 100%;">
+                                            <div style="background-color: var(--primary-dark); color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">BAGI 3 GELAS SAMA RATA</div>
+                                            <div style="padding: 0 15px;">
+                                                <i class="fas fa-arrow-right" style="color: var(--primary-dark);"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; width: 100%; gap: 10px;">
+                                            <div style="background-color: var(--primary-light); color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">GELAS 1: KONTROL</div>
+                                            <div style="background-color: #D2B48C; color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">GELAS 2: + CUKA</div>
+                                            <div style="background-color: #5D4037; color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">GELAS 3: + SODA KUE</div>
+                                        </div>
+                                        
+                                        <div style="padding: 15px 0;">
+                                            <i class="fas fa-arrow-down" style="color: var(--primary-dark); font-size: 24px;"></i>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; width: 100%;">
+                                            <div style="background-color: var(--primary-dark); color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">AMATI PERUBAHAN WARNA & CATAT HASIL</div>
+                                            <div style="padding: 0 15px;">
+                                                <i class="fas fa-arrow-right" style="color: var(--primary-dark);"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; width: 100%;">
+                                            <div style="background-color: var(--primary-dark); color: white; padding: 15px; border-radius: 10px; flex: 1; text-align: center; font-weight: bold;">ANALISIS DATA & BUAT KESIMPULAN</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-12">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot active" data-slide="11"></div>
+                            <div class="indicator-dot" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-12">
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 13: Terima Kasih -->
+                <div class="slide">
+                    <div class="slide-header">
+                        <div class="slide-number">13</div>
+                        <div class="slide-title">TERIMA KASIH</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="thank-you-container">
+                            <div>
+                                <h1 class="thank-you-title">TERIMA KASIH</h1>
+                                <h2 class="thank-you-subtitle">LAPORAN PRAKTIKUM KIMIA</h2>
+                                <h3 style="color: var(--primary-dark); margin-top: 10px;">Kesetimbangan Warna Teh</h3>
+                            </div>
+                            
+                            <div style="background-color: var(--light-bg); padding: 30px; border-radius: 15px; max-width: 800px;">
+                                <h3 style="color: var(--primary-dark); margin-bottom: 20px;">KELOMPOK 9 - KELAS 12.4</h3>
+                                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 30px;">
+                                    <div style="text-align: center;">
+                                        <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 10px; font-size: 20px;">
+                                            03
+                                        </div>
+                                        <p>Ahmad Thoriqul Islam<br>Al Ilhami</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 10px; font-size: 20px;">
+                                            19
+                                        </div>
+                                        <p>Jesselyn Putri Ramadhani<br>Yapriyanto</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 10px; font-size: 20px;">
+                                            30
+                                        </div>
+                                        <p>Mutiara Arianti Nur<br>Ar Rahma</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: var(--primary-dark); color: white; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 10px; font-size: 20px;">
+                                            37
+                                        </div>
+                                        <p>Rayhan Juniarta<br>Firmansyah</p>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <h4 style="color: var(--primary-dark);">SMA - TAHUN AJARAN 2024</h4>
+                                </div>
+                            </div>
+                            
+                            <div class="thank-you-quote">
+                                <i class="fas fa-quote-left" style="margin-right: 10px; color: var(--primary-light);"></i>
+                                Kimia adalah ilmu tentang perubahan, dan perubahan adalah inti dari kehidupan
+                                <i class="fas fa-quote-right" style="margin-left: 10px; color: var(--primary-light);"></i>
+                            </div>
+                            
+                            <div style="margin-top: 30px;">
+                                <button id="restart-presentation" class="nav-button" style="background-color: var(--primary-dark);">
+                                    <i class="fas fa-redo"></i> Mulai Presentasi Dari Awal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-nav">
+                        <button class="nav-button" id="prev-btn-13">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <div class="slide-indicator">
+                            <div class="indicator-dot" data-slide="0"></div>
+                            <div class="indicator-dot" data-slide="1"></div>
+                            <div class="indicator-dot" data-slide="2"></div>
+                            <div class="indicator-dot" data-slide="3"></div>
+                            <div class="indicator-dot" data-slide="4"></div>
+                            <div class="indicator-dot" data-slide="5"></div>
+                            <div class="indicator-dot" data-slide="6"></div>
+                            <div class="indicator-dot" data-slide="7"></div>
+                            <div class="indicator-dot" data-slide="8"></div>
+                            <div class="indicator-dot" data-slide="9"></div>
+                            <div class="indicator-dot" data-slide="10"></div>
+                            <div class="indicator-dot" data-slide="11"></div>
+                            <div class="indicator-dot active" data-slide="12"></div>
+                        </div>
+                        <button class="nav-button" id="next-btn-13" disabled>
+                            Selanjutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current slide index
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        const slidesWrapper = document.querySelector('.slides-wrapper');
+        const slideWidth = 100; // Percentage
+        
+        // Navigation functions
+        function goToSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            
+            currentSlide = index;
+            slidesWrapper.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Update active nav item
+            updateNavItems();
+            
+            // Update indicator dots
+            updateIndicatorDots();
+        }
+        
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+        
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+        
+        function updateNavigationButtons() {
+            // Disable/enable previous button
+            const prevButtons = document.querySelectorAll('.nav-button[id^="prev-btn"]');
+            prevButtons.forEach(btn => {
+                if (currentSlide === 0) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+            
+            // Disable/enable next button
+            const nextButtons = document.querySelectorAll('.nav-button[id^="next-btn"]');
+            nextButtons.forEach(btn => {
+                if (currentSlide === totalSlides - 1) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+        }
+        
+        function updateNavItems() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, index) => {
+                if (index === currentSlide) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        function updateIndicatorDots() {
+            const indicatorDots = document.querySelectorAll('.indicator-dot');
+            indicatorDots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click events to all navigation buttons
+            document.querySelectorAll('.nav-button[id^="next-btn"]').forEach(button => {
+                button.addEventListener('click', nextSlide);
+            });
+            
+            document.querySelectorAll('.nav-button[id^="prev-btn"]').forEach(button => {
+                button.addEventListener('click', prevSlide);
+            });
+            
+            // Add click events to sidebar navigation items
+            document.querySelectorAll('.nav-item').forEach((item, index) => {
+                item.addEventListener('click', () => goToSlide(index));
+            });
+            
+            // Add click events to indicator dots
+            document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+                dot.addEventListener('click', () => goToSlide(index));
+            });
+            
+            // Add click event to restart button
+            document.getElementById('restart-presentation').addEventListener('click', () => goToSlide(0));
+            
+            // Initialize navigation buttons
+            updateNavigationButtons();
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+            
+            // Touch/swipe support for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            slidesWrapper.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            slidesWrapper.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        nextSlide();
+                    } else {
+                        // Swipe right - previous slide
+                        prevSlide();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
